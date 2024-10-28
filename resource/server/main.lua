@@ -57,21 +57,27 @@ local function giveVehicle(target, vehicle)
         local xPlayer = ESX.GetPlayerFromId(target)
         if not xPlayer then return end
 
-        MySQL.insert('INSERT INTO `owned_vehicles` (owner, plate, vehicle, stored) VALUES (?, ?, ?, ?)', { xPlayer.identifier, props.plate, json.encode(props), 1 })
+        MySQL.insert('INSERT INTO `owned_vehicles` (owner, plate, vehicle, stored) VALUES (?, ?, ?, ?)',
+            { xPlayer.identifier, props.plate, json.encode(props), 1 })
     end
     if QBCore then
         local xPlayer = QBCore.Functions.GetPlayer(target)
         if not xPlayer then return end
 
-        MySQL.insert('INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state, garage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', { xPlayer.PlayerData.license, xPlayer.PlayerData.citizenid, vehicle.model, GetHashKey(model), props, props.plate, 1, "A",
-        })
+        MySQL.insert(
+        'INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state, garage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            { xPlayer.PlayerData.license, xPlayer.PlayerData.citizenid, vehicle.model, GetHashKey(model), props, props
+                .plate, 1, "A",
+            })
     end
     if Ox then
         props.plate   = Ox.GenerateVehiclePlate()
         local vin     = Ox.GenerateVehicleVin(vehicle.model)
         local xPlayer = Ox.GetPlayer(target)
 
-        MySQL.insert('INSERT INTO `vehicles` (plate, vin, owner, model, class, data, stored) VALUES (?, ?, ?, ?, ?, ?, ?)', { props.plate, vin, xPlayer.charId, vehicle.model, class, json.encode(props), "A" })
+        MySQL.insert(
+        'INSERT INTO `vehicles` (plate, vin, owner, model, class, data, stored) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            { props.plate, vin, xPlayer.charId, vehicle.model, class, json.encode(props), "A" })
     end
 end
 
@@ -175,3 +181,6 @@ lib.callback.register("ars_halloween:sellItem", function(source, data)
     addItem(source, "money", moneyToGive)
     return true
 end)
+
+
+lib.versionCheck('Arius-Scripts/ars_halloween')
