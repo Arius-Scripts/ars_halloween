@@ -1,38 +1,63 @@
+# Halloween Hunt
+
+Join the **Halloween Hunt**! Collect pumpkins for random rewards and a chance to win vehicles. Examine zombies for hidden loot and earn bonuses. Enjoy spooky weather and eerie sound effects while you play. Sell your items for in-game currency, and watch out for jumpscares and zombie attacks!
+
 # Features
 
 ### 1. 🎃 Pumpkin Collection & Rewards
 
--   **Randomized Rewards**: Players receive random rewards when collecting pumpkins, with variable items and currency.
--   **Dynamic Pumpkin Spawns**: Pumpkins spawn randomly within specified zones, keeping the hunt engaging and unpredictable.
--   **Vehicle Reward Chance**: Small chance to win a vehicle when collecting a pumpkin, adding excitement to the event.
--   **Celebration Effects**: Visual and audio effects trigger when a player wins a vehicle, enhancing excitement around major rewards.
+-   **Random Rewards**: Collect pumpkins for a variety of random items and currency.
+-   **Dynamic Spawns**: Pumpkins appear randomly in different zones for an unpredictable hunt.
+-   **Vehicle Prize Chance**: Small chance to win a vehicle with each pumpkin collected.
+-   **Celebration Effects**: Visual and sound effects trigger when a player wins a vehicle, adding excitement.
 
 ### 2. 🧟 Zombie Interaction & Rewards
 
--   **Zombie Examination Rewards**: Players can examine zombies for randomized loot, adding suspense and variability to encounters.
--   **Zombie Bonus Milestones**: Special bonus rewards are granted for examining specific numbers of zombies, encouraging active participation.
--   **UI Counter**: A simple UI displays the number of zombies examined and pumpkins collected, providing real-time event tracking.
+-   **Examine Zombies**: Players can check zombies for random loot, adding suspense.
+-   **Bonus Milestones**: Special rewards for examining a set number of zombies, encouraging engagement.
+-   **UI Tracker**: Displays the count of zombies examined and pumpkins collected in real-time.
 
 ### 3. 👻 Halloween Atmosphere
 
--   **Halloween-Themed Weather**: Spooky weather conditions create a Halloween atmosphere.
+-   **Spooky Weather**: Creates a Halloween-themed atmosphere.
 -   **Sound Effects**:
-    -   **Collection & Examination**: Eerie sounds play when collecting pumpkins or examining zombies.
-    -   **Zombie Attacks**: A distinctive sound effect plays when players are hit by a zombie, enhancing immersion.
+    -   **Eerie Sounds**: Play when collecting pumpkins or examining zombies.
+    -   **Zombie Attacks**: Unique sounds when hit by a zombie for better immersion.
 
-### 4. 💰 Reward Shop & Sell Functionality
+### 4. 💰 Reward Shop & Selling
 
--   **Sell Shop**: A shop interface allows players to sell items collected from zombies and pumpkins for in-game currency, adding a progression system.
+-   **Sell Shop**: Players can sell items from zombies and pumpkins for in-game currency, adding progression.
 
 ### 5. 🧟‍♂️ Zombie Attack Mechanics
 
--   **Ragdoll Effect**: Players have a chance to ragdoll when hit by a zombie, adding a risk element to encounters.
+-   **Ragdoll Effect**: Players may ragdoll when hit by a zombie, increasing the challenge.
 
-### 6. ⚙️ Performance & Optimization
+### 6. ⚙️ Performance Optimization
 
--   **Optimized for Performance**: The script and assets are optimized to minimize server and client-side load, ensuring smooth gameplay during events.
+-   **Optimized Gameplay**: Script and assets are designed to reduce server and client load for smooth performance.
 
-# Credits:
+### 7. 👻 Jumpscare Feature
 
--   Prop: SMGMissy > https://forum.cfx.re/t/free-props-halloween-props/4771327
--   Zombie System: ENT510
+-   **Scare Chance**: Players may experience jumpscares while collecting pumpkins or examining zombies.
+
+### :arrows_counterclockwise: **Frameworks**
+
+-   ESX
+-   QBCORE
+-   OxCore
+
+### :dart: **Dependencies**
+
+-   ox_lib
+-   ox_target
+
+:link: **Video Preview:**
+[Preview](https://youtu.be/q59_st6iuQU)
+
+:globe_with_meridians: **Cfx Forums**
+[Forums](https://forum.cfx.re/t/free-esx-qbcore-arius-ambulancejob/5184085)
+
+# Credits
+
+-   **Props**: SMGMissy > [Halloween Props](https://forum.cfx.re/t/free-props-halloween-props/4771327)
+-   **Zombie System**: ENT510
