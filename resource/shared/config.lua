@@ -54,7 +54,6 @@ Config.BonusRewards = {
         [80] = {
             items = {
                 { name = "golden_pumpkin", minQuantity = 1, maxQuantity = 1 },
-                { name = "mystery_box",    minQuantity = 1, maxQuantity = 1 },
                 { name = "pumpkin_spice",  minQuantity = 1, maxQuantity = 3 },
             },
             vehicles = {
@@ -63,9 +62,7 @@ Config.BonusRewards = {
         },
         [100] = {
             items = {
-                { name = "legendary_armor",  minQuantity = 1, maxQuantity = 1 },
-                { name = "rare_collectible", minQuantity = 1, maxQuantity = 1 },
-                { name = "haunted_key",      minQuantity = 1, maxQuantity = 1 },
+                { name = "legendary_armor", minQuantity = 1, maxQuantity = 1 },
             },
             vehicles = {
                 { model = "zombiea", modifications = {}, chance = 5 },
@@ -77,7 +74,6 @@ Config.BonusRewards = {
             items = {
                 { name = "vampire_fang", minQuantity = 1, maxQuantity = 1 },
                 { name = "witch_brew",   minQuantity = 1, maxQuantity = 2 },
-                { name = "skeleton_key", minQuantity = 1, maxQuantity = 1 },
             },
             vehicles = {
                 { model = "phantom", modifications = {}, chance = 5 },
@@ -85,7 +81,6 @@ Config.BonusRewards = {
         },
         [80] = {
             items = {
-                { name = "mystery_box",   minQuantity = 1, maxQuantity = 1 },
                 { name = "golden_zombie", minQuantity = 1, maxQuantity = 1 },
                 { name = "dark_amulet",   minQuantity = 1, maxQuantity = 1 },
             },
@@ -124,7 +119,6 @@ Config.SpookyZones = {
                 { name = "pumpkin_spice",   label = "Pumpkin Spice Elixir", description = "A magical brew to enhance your abilities for %s coins.",                  price = math.random(90, 400) },
                 { name = "scary_mask",      label = "Scary Mask",           description = "A mask to frighten your enemies for %s coins.",                           price = math.random(100, 520) },
                 { name = "blood_potion",    label = "Blood Potion",         description = "A potion to restore your health for %s coins.",                           price = math.random(100, 520) },
-                { name = "skeleton_key",    label = "Skeleton Key",         description = "Sweet treats perfect for Halloween celebrations for %s coins.",           price = math.random(100, 520) },
                 { name = "vampire_fang",    label = "Vampire Fang",         description = "A tooth from a vampire, useful for crafting for %s coins.",               price = math.random(100, 520) },
 
                 { name = "golden_pumpkin",  label = "Golden Pumpkin",       description = "A rare pumpkin said to bring good fortune for %s coins.",                 price = math.random(1000, 4000) },
@@ -133,7 +127,6 @@ Config.SpookyZones = {
                 { name = "dark_amulet",     label = "Dark Amulet",          description = "An amulet that holds dark powers for %s coins.",                          price = math.random(500, 900) },
                 { name = "golden_zombie",   label = "Golden Zombie Token",  description = "A token representing a rare zombie for %s coins.",                        price = math.random(500, 900) },
                 { name = "witch_brew",      label = "Witch's Brew",         description = "A potion brewed by witches, filled with mysterious powers for %s coins.", price = math.random(500, 900) },
-                { name = "mystery_box",     label = "Mystery Box",          description = "A box that holds unknown treasures for %s coins.",                        price = math.random(500, 900) },
                 { name = "candy_corn",      label = "Candy Corn",           description = "Sweet treats perfect for Halloween celebrations for %s coins.",           price = math.random(500, 900) },
             }
         },
@@ -156,7 +149,6 @@ Config.SpookyZones = {
                 { name = "money",        minQuantity = 50, maxQuantity = 150 },
                 { name = "bandage",      minQuantity = 1,  maxQuantity = 3 },
                 { name = "blood_potion", minQuantity = 1,  maxQuantity = 2 },
-                { name = "skeleton_key", minQuantity = 1,  maxQuantity = 1 },
                 { name = "vampire_fang", minQuantity = 1,  maxQuantity = 2 },
             },
             vehicles = {
