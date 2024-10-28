@@ -48,7 +48,7 @@ Config.BonusRewards = {
                 { name = "scary_mask", minQuantity = 1, maxQuantity = 1 },
             },
             vehicles = {
-                { model = "phantom", modifications = {}, chance = 5 },
+                { model = "club", modifications = {}, chance = 5 },
             },
         },
         [80] = {
@@ -68,7 +68,7 @@ Config.BonusRewards = {
                 { name = "haunted_key",      minQuantity = 1, maxQuantity = 1 },
             },
             vehicles = {
-                { model = "zombie", modifications = {}, chance = 5 },
+                { model = "zombiea", modifications = {}, chance = 5 },
             },
         },
     },
@@ -99,7 +99,7 @@ Config.BonusRewards = {
                 { name = "ethereal_sword",  minQuantity = 1, maxQuantity = 1 },
             },
             vehicles = {
-                { model = "adder", modifications = {}, chance = 5 },
+                { model = "adder", modifications = {}, chance = 2 },
             },
         },
     }
@@ -147,8 +147,8 @@ Config.SpookyZones = {
                 { name = "scary_mask",    minQuantity = 1,  maxQuantity = 1 },
             },
             vehicles = {
-                { model = "scooter", modifications = {}, chance = 5 },
-                { model = "phantom", modifications = {}, chance = 3 },
+                { model = "bf400", modifications = {}, chance = 5 },
+                { model = "club",  modifications = {}, chance = 3 },
             },
         },
         zombies = {
