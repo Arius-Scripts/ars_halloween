@@ -1,0 +1,13 @@
+{
+    "examine_zombie_label": "Inspect the Zombie",
+    "pumpkin_collect_label": "Harvest Pumpkin",
+    "win_vehicle": "Congratulations! You’ve earned a bonus vehicle!",
+    "dealer_interaction_label": "Trade with the Dead Dealer",
+    "dealer_menu_title": "👻Dead Dealer👻",
+    "sell_select_amount_title": "Choose Quantity",
+    "sell_select_amount_label": "Quantity",
+    "sell_select_amount_desc": "Select the number of items to sell (e.g., 1)",
+    "invalid_amount": "Invalid input",
+    "not_enough_items": "Not enough items",
+    "item_sold": "x%s %s sold for %s$"
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arius Halloween</title>
+
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/top.css">
+    <link rel="stylesheet" href="css/bottom.css">
+
+    <!-- jQuery -->
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- JavaScript for Timer -->
+    <script defer src="js/app.js"></script>
+</head>
+
+<body>
+    <div class="parent-div">
+        <div class="halloween-ui-container">
+            <div class="halloween-banner">
+                <h1 class="halloween-title">🎃 Spooky Zone 🎃</h1>
+            </div>
+            <div class="event-info">
+                <div class="zombie-counter">
+                    💀
+                    <span id="zombies-collected-label">Examined:</span>
+                    <span id="zombies-collected-value">0</span>
+                </div>
+
+                <div class="pumpkin-counter">
+                    🎃
+                    <span id="pumpkins-collected-label">Collected:</span>
+                    <span id="pumpkins-collected-value">0</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <audio id="background-music" loop>
+        <source src="sounds/music.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="scary-sound">
+        <source src="sounds/scary.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="damage-sound">
+        <source src="sounds/damage.mp3" type="audio/mpeg">
+    </audio>
+
+    <img class="scary-image" src="images/scary_image.jpg"><img />
+
+
+    <div class="blood-overlay" id="blood-overlay"></div>
+
+
+</body>
+
+</html>
