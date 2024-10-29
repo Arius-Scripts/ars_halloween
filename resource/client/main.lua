@@ -140,7 +140,6 @@ function createShop()
 
                     for i = 1, #currentZone.shop.items do
                         local item = currentZone.shop.items[i]
-                        print(Config.IconPath:format(item.name))
                         options[#options + 1] = {
                             title = item.label,
                             description = (item.description):format(item.price),

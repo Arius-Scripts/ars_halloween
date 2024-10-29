@@ -17,14 +17,10 @@ local TaskWanderStandard = TaskWanderStandard
 local SetEntityHealth = SetEntityHealth
 local SetPedRagdollBlockingFlags = SetPedRagdollBlockingFlags
 local SetPedCanRagdollFromPlayerImpact = SetPedCanRagdollFromPlayerImpact
-local SetPedEnableWeaponBlocking = SetPedEnableWeaponBlocking
-local SetPedSuffersCriticalHits = SetPedSuffersCriticalHits
 local SetPedDiesWhenInjured = SetPedDiesWhenInjured
 local DisablePedPainAudio = DisablePedPainAudio
-local StopPedRingtone = StopPedRingtone
 local StopPedSpeaking = StopPedSpeaking
 local SetPedMute = SetPedMute
-local SetPedConfigFlag = SetPedConfigFlag
 local SetBlockingOfNonTemporaryEvents = SetBlockingOfNonTemporaryEvents
 local RemoveAllPedWeapons = RemoveAllPedWeapons
 local SetPedMovementClipset = SetPedMovementClipset
@@ -54,7 +50,7 @@ local zombiesCollected = 0
 
 SetRelationshipBetweenGroups(0, zombieGroup, playerGroup)
 SetRelationshipBetweenGroups(5, playerGroup, zombieGroup)
-DecorRegister('RegisterZombie', 2)
+DecorRegister('Zombie', 2)
 AddRelationshipGroup('ZOMBIE')
 
 ---@param zone table
@@ -79,7 +75,7 @@ function handleZombie(zone)
                         goto continue
                     end
 
-                    if not DecorExistOn(zombiePed, 'RegisterZombie') then
+                    if not DecorExistOn(zombiePed, 'Zombie') then
                         initializeZombie(zombiePed)
                     end
 
@@ -95,30 +91,26 @@ end
 function initializeZombie(zombie)
     zombiesCreated[zombie] = true
 
-    SetPedRelationshipGroupHash(zombie, 'ZOMBIE')
-    ApplyPedDamagePack(zombie, 'BigHitByVehicle', 0.0, 1.0)
-    DecorSetBool(zombie, 'RegisterZombie', true)
-
     ClearPedSecondaryTask(zombie)
     ClearPedTasksImmediately(zombie)
+
+    SetPedRelationshipGroupHash(zombie, 'ZOMBIE')
+    ApplyPedDamagePack(zombie, 'BigHitByVehicle', 0.0, 1.0)
+    ApplyPedDamagePack(zombie, "SCR_Dumpster", 0.0, 9.0)
+    ApplyPedDamagePack(zombie, "SCR_Torture", 0.0, 9.0)
+    DecorSetBool(zombie, 'Zombie', true)
 
     TaskWanderStandard(zombie, 10.0, 10)
     SetEntityHealth(zombie, 350.0)
 
     SetPedRagdollBlockingFlags(zombie, 1)
     SetPedCanRagdollFromPlayerImpact(zombie, false)
-    SetPedEnableWeaponBlocking(zombie, true)
-    SetPedSuffersCriticalHits(zombie, true)
     SetPedDiesWhenInjured(zombie, false)
 
     DisablePedPainAudio(zombie, true)
-    StopPedRingtone(zombie)
     StopPedSpeaking(zombie, true)
 
     SetPedMute(zombie)
-    SetPedConfigFlag(zombie, 166, false)
-    SetPedConfigFlag(zombie, 170, false)
-    SetPedConfigFlag(zombie, 100, false)
     SetBlockingOfNonTemporaryEvents(zombie, true)
     RemoveAllPedWeapons(zombie, true)
 
@@ -152,7 +144,8 @@ function attackPlayer(zombie)
     CreateThread(function()
         local health = GetEntityHealth(playerPed)
         if health > 0 then
-            TaskPlayAnim(zombie, attackAnimationDict, 'ground_attack_0_psycho', 8.0, 1.0, -1, 48, 0.001, false, false, false)
+            TaskPlayAnim(zombie, attackAnimationDict, 'ground_attack_0_psycho', 8.0, 1.0, -1, 48, 0.001, false, false,
+                false)
 
             local randomDamage = math.random(1, 5)
             ApplyDamageToPed(playerPed, randomDamage, false)
@@ -234,7 +227,7 @@ exports.ox_target:addGlobalPed({
             lootZombie(entity)
         end,
         canInteract = function(entity)
-            return IsEntityDead(entity) and DecorExistOn(entity, 'RegisterZombie') and currentZone
+            return IsEntityDead(entity) and DecorExistOn(entity, 'Zombie') and currentZone
         end,
         distance = 1.5,
     }
