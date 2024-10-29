@@ -131,7 +131,6 @@ function createShop()
         SetEntityInvincible(ped, true)
         SetBlockingOfNonTemporaryEvents(ped, true)
         SetModelAsNoLongerNeeded(model)
-
         exports.ox_target:addLocalEntity(ped, {
             {
                 label = L("dealer_interaction_label"),
@@ -141,10 +140,11 @@ function createShop()
 
                     for i = 1, #currentZone.shop.items do
                         local item = currentZone.shop.items[i]
+                        print(Config.IconPath:format(item.name))
                         options[#options + 1] = {
                             title = item.label,
                             description = (item.description):format(item.price),
-                            icon = "fas fa-shopping-bag",
+                            icon = Config.IconPath:format(item.name),
                             onSelect = function()
                                 local input = lib.inputDialog(L("sell_select_amount_title"), {
                                     { type = 'number', label = L("sell_select_amount_label"), description = L("sell_select_amount_desc"), icon = 'hashtag' },
@@ -364,7 +364,8 @@ function doCelebration() -- not synced because i am lazy
     for i = 1, 10 do
         local fireworkPos = cache.coords
         UseParticleFxAssetNextCall(particleDict)
-        StartNetworkedParticleFxNonLoopedAtCoord(asset, fireworkPos.x, fireworkPos.y, fireworkPos.z, 0.0, 0.0, 0.0, math.random() * 0.3 + 0.5, false, false, false)
+        StartNetworkedParticleFxNonLoopedAtCoord(asset, fireworkPos.x, fireworkPos.y, fireworkPos.z, 0.0, 0.0, 0.0,
+            maandom() * 0.3 + 0.5, false, false, false)
         Wait(math.random(200, 1000))
     end
 end

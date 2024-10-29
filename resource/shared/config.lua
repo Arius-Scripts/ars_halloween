@@ -6,6 +6,9 @@ Config.Plate            = {
     pattern = "AAA 777",
     maxLetters = 7
 }
+
+Config.IconPath         = ("https://cfx-nui-ox_inventory/web/images/%s.png")
+
 Config.PumpkinModel     = `jackolantern`
 Config.Progress         = {
     pumpkin = {
