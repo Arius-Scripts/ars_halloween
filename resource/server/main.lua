@@ -80,8 +80,6 @@ RegisterNetEvent("ars_halloween:collectEntity", function(data)
     local source = source
     local entity = NetworkGetEntityFromNetworkId(data.netId)
 
-    print(Entity(entity).state.zombie)
-
     local entityCoords = GetEntityCoords(entity)
     local playerPed = GetPlayerPed(source)
     local playerCoords = GetEntityCoords(playerPed)
