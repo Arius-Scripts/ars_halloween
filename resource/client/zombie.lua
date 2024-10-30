@@ -43,7 +43,6 @@ local drunkMovementSet = lib.requestAnimSet("move_m@drunk@verydrunk")
 local injuredMovementSet = lib.requestAnimSet("move_injured_generic")
 local crouchMovementSet = lib.requestAnimSet("move_ped_crouched")
 local attackAnimationDict = lib.requestAnimDict("melee@unarmed@streamed_core_fps")
-local zombiesCollected = 0
 
 SetRelationshipBetweenGroups(0, zombieGroup, playerGroup)
 SetRelationshipBetweenGroups(5, playerGroup, zombieGroup)
@@ -186,22 +185,20 @@ function lootZombie(entity)
 
     local data = {
         netId = NetworkGetNetworkIdFromEntity(entity),
-        rewards = currentZone.zombies,
-        zombieBonus = Config.BonusRewards.pumpkins[zombiesCollected],
-        bonusValue = zombiesCollected
+        zone = currentZone.name,
+        zombies = true,
     }
 
-    local wonVehicle = lib.callback.await("ars_halloween:collectRewards", false, data)
+    local wonVehicle, collectedCount = lib.callback.await("ars_halloween:collectRewards", false, data)
     if wonVehicle then
         UTILS.showNotification(L("win_vehicle"))
         doCelebration()
     end
 
     scarePlayer()
-    zombiesCollected += 1
     SendNUIMessage({
         action = "updateCard",
-        zombiesCollected = zombiesCollected
+        zombiesCollected = collectedCount and collectedCount?.zombies or 0
     })
 end
 

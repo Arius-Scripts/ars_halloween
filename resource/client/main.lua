@@ -28,7 +28,6 @@ local resourceName = cache.resource
 local pumpkinEntities = {}
 local lastWeather = GetPrevWeatherTypeHashName()
 local lastTime = { h = GetClockHours(), m = GetClockMinutes(), s = GetClockSeconds() }
-local pumpkinsCollected = 0
 local shopPoint = nil
 currentZone = nil
 playerPed = cache?.ped or PlayerPedId()
@@ -152,8 +151,9 @@ function createShop()
                                 if not input then return UTILS.showNotification(L("invalid_amount")) end
 
                                 local data = {
-                                    item = item,
-                                    toSell = input[1]
+                                    itemIndex = i,
+                                    quantity = input[1],
+                                    zone = currentZone?.name
                                 }
 
                                 local success = lib.callback.await("ars_halloween:sellItem", false, data)
@@ -209,7 +209,7 @@ function deleteEntities()
 end
 
 function loadZones()
-    for _, data in ipairs(Config.SpookyZones) do
+    for zoneName, data in pairs(Config.SpookyZones) do
         local zone = data.zone
 
 
@@ -225,6 +225,7 @@ function loadZones()
             -- debug = true,
             onEnter = function(self)
                 currentZone = data
+                currentZone.name = zoneName
                 startHalloweenEvent(zone)
             end,
             onExit = function(self)
@@ -267,30 +268,21 @@ exports.ox_target:addModel(Config.PumpkinModel, {
 
             local data = {
                 netId = NetworkGetNetworkIdFromEntity(entity),
-                rewards = currentZone.pumpkins,
-                pumpkinBonus = Config.BonusRewards.pumpkins[pumpkinsCollected],
-                bonusValue = pumpkinsCollected
+                zone = currentZone.name,
+                pumpkins = true,
             }
 
-            local wonVehicle = lib.callback.await("ars_halloween:collectRewards", false, data)
+            local wonVehicle, collectedCount = lib.callback.await("ars_halloween:collectRewards", false, data)
             if wonVehicle then
                 UTILS.showNotification(L("win_vehicle"))
                 doCelebration()
             end
             PlaySoundFrontend(-1, "CHECKPOINT_PERFECT", "HUD_MINI_GAME_SOUNDSET", 0)
 
-            pumpkinsCollected += 1
             SendNUIMessage({
                 action = "updateCard",
-                pumpkinsCollected = pumpkinsCollected,
+                pumpkinsCollected = collectedCount and collectedCount?.pumpkins or 0,
             })
-
-            -- if rewardsData.vehicle then
-            --     UTILS.showNotification(L("win_vehicle"))
-            --     doCelebration()
-            -- end
-
-            -- TriggerServerEvent("ars_halloween:collectEntity", data)
             scarePlayer()
         end
     }

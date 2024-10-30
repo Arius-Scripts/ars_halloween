@@ -103,33 +103,54 @@ local function collectRandomReward(source, rewards)
 end
 
 
+local collectionCount = {}
+
 ---@param data table
 lib.callback.register("ars_halloween:collectRewards", function(source, data)
-    local entity = NetworkGetEntityFromNetworkId(data.netId)
+    local zoneData = Config.SpookyZones[data.zone]
+    local rewards = data.pumpkins and zoneData.pumpkins or data.zombies and zoneData.zombies
+    if not rewards then return print("Invalid data passed") end
 
-    local entityCoords = GetEntityCoords(entity)
-    local playerPed = GetPlayerPed(source)
-    local playerCoords = GetEntityCoords(playerPed)
-    if #(playerCoords - entityCoords) > 5 then
+    -- Verify proximity to entity
+    local entity = NetworkGetEntityFromNetworkId(data.netId)
+    local playerCoords = GetEntityCoords(GetPlayerPed(source))
+    if #(playerCoords - GetEntityCoords(entity)) > 5 then
+        return print(("ID: [%s] triggered event %s"):format(source, "ars_halloween:collectRewards"))
+    end
+    if #(playerCoords - zoneData.zone.coords) > zoneData.zone.radius then
         return print(("ID: [%s] triggered event %s"):format(source, "ars_halloween:collectRewards"))
     end
 
-    local wonVehicle = collectRandomReward(source, data.rewards)
+    local playerIdentifier = GetPlayerIdentifierByType(source, "license")
+    local wonVehicle = collectRandomReward(source, rewards)
 
-    if data?.pumpkinBonus then
-        if not alreadyCollectedBonus(source, data.bonusValue, "pumpkins") then
-            wonVehicle = collectRandomReward(source, data.pumpkinBonus)
+    local function updateCollection(type, bonusRewards)
+        if not collectionCount[playerIdentifier] then
+            collectionCount[playerIdentifier] = {
+                ["zombies"] = 0,
+                ["pumpkins"] = 0
+            }
+        end
+        collectionCount[playerIdentifier][type] += 1
+
+        local bonusValue = collectionCount[playerIdentifier][type]
+        if bonusRewards[bonusValue] and not alreadyCollectedBonus(source, bonusValue, type) then
+            wonVehicle = collectRandomReward(source, bonusRewards[bonusValue])
         end
     end
-    if data?.zombieBonus then
-        if not alreadyCollectedBonus(source, data.bonusValue, "zombies") then
-            wonVehicle = collectRandomReward(source, data.zombieBonus)
-        end
+
+    if data.pumpkins then
+        updateCollection("pumpkins", Config.BonusRewards.pumpkins)
     end
+
+    if data.zombies then
+        updateCollection("zombies", Config.BonusRewards.zombies)
+    end
+
     DeleteEntity(entity)
-
-    return wonVehicle
+    return wonVehicle, collectionCount[playerIdentifier]
 end)
+
 
 
 local bonusCollected = {}
@@ -201,11 +222,24 @@ end
 ---@param data table
 ---@return boolean
 lib.callback.register("ars_halloween:sellItem", function(source, data)
-    local item        = data.item.name
-    local quantity    = data.toSell
-    local moneyToGive = data.item.price * quantity
+    local zoneData = Config.SpookyZones[data.zone]
+    local item     = zoneData.shop.items[data.itemIndex]
+    if not item then
+        print("invalid item data")
+        return false
+    end
 
-    local hasItem     = removeItem(source, item, quantity)
+    local itemName     = item.name
+    local quantity     = data.quantity
+    local moneyToGive  = item.price * quantity
+
+    local playerCoords = GetEntityCoords(GetPlayerPed(source))
+    if #(playerCoords - zoneData.shop.coords.xyz) > 5 then
+        print(("ID: [%s] triggered event %s"):format(source, "ars_halloween:sellItem"))
+        return false
+    end
+
+    local hasItem = removeItem(source, itemName, quantity)
     if not hasItem then return false end
 
     addItem(source, "money", moneyToGive)

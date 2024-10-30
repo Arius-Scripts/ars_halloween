@@ -44,7 +44,7 @@ Config.Progress         = {
 
 Config.BonusRewards = {
     pumpkins = {
-        [30] = {
+        [2] = {
             items = {
                 { name = "witch_brew", minQuantity = 1, maxQuantity = 2 },
                 { name = "candy_corn", minQuantity = 5, maxQuantity = 10 },
@@ -104,7 +104,7 @@ Config.BonusRewards = {
 }
 
 Config.SpookyZones = {
-    {
+    ["spooky_zone_1"] = {
         zone = {
             coords = vector3(-1107.36, -1549.64, 4.36),
             radius = 100.0,
