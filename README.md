@@ -1,6 +1,6 @@
-# Halloween Hunt
+# Arius Halloween
 
-Join the **Halloween Hunt**! Collect pumpkins for random rewards and a chance to win vehicles. Examine zombies for hidden loot and earn bonuses. Enjoy spooky weather and eerie sound effects while you play. Sell your items for in-game currency, and watch out for jumpscares and zombie attacks!
+Join the **Halloween**! Collect pumpkins for random rewards and a chance to win vehicles. Examine zombies for hidden loot and earn bonuses. Enjoy spooky weather and eerie sound effects while you play. Sell your items for in-game currency, and watch out for jumpscares and zombie attacks!
 
 # Features
 
@@ -52,7 +52,7 @@ Join the **Halloween Hunt**! Collect pumpkins for random rewards and a chance to
 -   ox_target
 
 :link: **Video Preview:**
-[Preview](https://youtu.be/q59_st6iuQU)
+[Preview](https://youtu.be/nHboS-B9MCc)
 
 :globe_with_meridians: **Cfx Forums**
 [Forums](https://forum.cfx.re/t/free-esx-qbcore-arius-ambulancejob/5184085)
