@@ -79,11 +79,11 @@ end
 RegisterNetEvent("ars_halloween:collectEntity", function(data)
     local source = source
     local entity = NetworkGetEntityFromNetworkId(data.netId)
-    local zombieCoords = GetEntityCoords(entity)
+    local entityCoords = GetEntityCoords(entity)
     local playerPed = GetPlayerPed(source)
     local playerCoords = GetEntityCoords(playerPed)
-    if #(playerCoords - zombieCoords) > 5 then
-        return print(("ID: [%s] triggered event %s"):format(source, "ars_halloween:lootZombie"))
+    if #(playerCoords - entityCoords) > 5 then
+        return print(("ID: [%s] triggered event %s"):format(source, "ars_halloween:collectEntity"))
     end
 
     local item = data.item.name
