@@ -1,5 +1,4 @@
 local SetRelationshipBetweenGroups = SetRelationshipBetweenGroups
-local DecorRegister = DecorRegister
 local AddRelationshipGroup = AddRelationshipGroup
 local CreateThread = CreateThread
 local Wait = Wait
@@ -7,10 +6,8 @@ local IsPedHuman = IsPedHuman
 local IsPedAPlayer = IsPedAPlayer
 local IsPedDeadOrDying = IsPedDeadOrDying
 local GetEntityPopulationType = GetEntityPopulationType
-local DecorExistOn = DecorExistOn
 local SetPedRelationshipGroupHash = SetPedRelationshipGroupHash
 local ApplyPedDamagePack = ApplyPedDamagePack
-local DecorSetBool = DecorSetBool
 local ClearPedSecondaryTask = ClearPedSecondaryTask
 local ClearPedTasksImmediately = ClearPedTasksImmediately
 local TaskWanderStandard = TaskWanderStandard
@@ -39,7 +36,7 @@ local NetworkGetNetworkIdFromEntity = NetworkGetNetworkIdFromEntity
 local DoesEntityExist = DoesEntityExist
 local DeleteEntity = DeleteEntity
 
-local zombiesCreated = {}
+local zombies = {}
 local zombieGroup = `ZOMBIE`
 local playerGroup = `PLAYER`
 local drunkMovementSet = lib.requestAnimSet("move_m@drunk@verydrunk")
@@ -50,14 +47,14 @@ local zombiesCollected = 0
 
 SetRelationshipBetweenGroups(0, zombieGroup, playerGroup)
 SetRelationshipBetweenGroups(5, playerGroup, zombieGroup)
-DecorRegister('Zombie', 2)
 AddRelationshipGroup('ZOMBIE')
+
 
 ---@param zone table
 function handleZombie(zone)
     CreateThread(function()
         while currentZone do
-            for zombie, value in pairs(zombiesCreated) do
+            for zombie, value in pairs(zombies) do
                 manageZombieBehavior(zombie)
             end
             Wait(2000)
@@ -75,7 +72,7 @@ function handleZombie(zone)
                         goto continue
                     end
 
-                    if not DecorExistOn(zombiePed, 'Zombie') then
+                    if not Entity(zombiePed)?.state?.zombie then
                         initializeZombie(zombiePed)
                     end
 
@@ -89,7 +86,7 @@ end
 
 ---@param zombie number
 function initializeZombie(zombie)
-    zombiesCreated[zombie] = true
+    zombies[zombie] = true
 
     ClearPedSecondaryTask(zombie)
     ClearPedTasksImmediately(zombie)
@@ -98,7 +95,8 @@ function initializeZombie(zombie)
     ApplyPedDamagePack(zombie, 'BigHitByVehicle', 0.0, 1.0)
     ApplyPedDamagePack(zombie, "SCR_Dumpster", 0.0, 9.0)
     ApplyPedDamagePack(zombie, "SCR_Torture", 0.0, 9.0)
-    DecorSetBool(zombie, 'Zombie', true)
+    Entity(zombie).state:set('zombie', true, true)
+
 
     TaskWanderStandard(zombie, 10.0, 10)
     SetEntityHealth(zombie, 350.0)
@@ -120,7 +118,7 @@ end
 ---@param zombie number
 function manageZombieBehavior(zombie)
     if IsPedDeadOrDying(zombie) then
-        if zombiesCreated[zombie] then zombiesCreated[zombie] = false end
+        if zombies[zombie] then zombies[zombie] = false end
         return
     end
 
@@ -186,8 +184,8 @@ function lootZombie(entity)
 
     NetworkFadeOutEntity(entity)
     PlaySoundFrontend(-1, "CHECKPOINT_PERFECT", "HUD_MINI_GAME_SOUNDSET", 0)
-    if zombiesCreated[entity] then
-        zombiesCreated[entity] = false
+    if zombies[entity] then
+        zombies[entity] = false
     end
     TriggerServerEvent("ars_halloween:collectEntity", data)
 
@@ -227,14 +225,14 @@ exports.ox_target:addGlobalPed({
             lootZombie(entity)
         end,
         canInteract = function(entity)
-            return IsEntityDead(entity) and DecorExistOn(entity, 'Zombie') and currentZone
+            return IsEntityDead(entity) and Entity(zombiePed)?.state.zombie and currentZone
         end,
         distance = 1.5,
     }
 })
 
 function removeAllZombies()
-    for zombie, value in pairs(zombiesCreated) do
+    for zombie, value in pairs(zombies) do
         if DoesEntityExist(zombie) then
             ClearPedTasksImmediately(zombie)
             DeleteEntity(zombie)
