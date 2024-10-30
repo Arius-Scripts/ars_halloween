@@ -225,7 +225,7 @@ exports.ox_target:addGlobalPed({
             lootZombie(entity)
         end,
         canInteract = function(entity)
-            return IsEntityDead(entity) and Entity(zombiePed)?.state.zombie and currentZone
+            return IsEntityDead(entity) and Entity(entity)?.state?.zombie and currentZone
         end,
         distance = 1.5,
     }
