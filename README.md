@@ -60,4 +60,4 @@ Join the **Halloween Hunt**! Collect pumpkins for random rewards and a chance to
 # Credits
 
 -   **Props**: SMGMissy > [Halloween Props](https://forum.cfx.re/t/free-props-halloween-props/4771327)
--   **Zombie System**: ENT510
+-   **Zombie System**: ENT510 & https://github.com/WeponzTV/Standalone-Zombie-System
