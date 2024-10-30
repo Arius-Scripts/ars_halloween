@@ -265,20 +265,18 @@ exports.ox_target:addModel(Config.PumpkinModel, {
             NetworkFadeOutEntity(entity)
             Wait(100)
 
-            local rewardsData = collectRandomReward(currentZone.pumpkins)
-
             local data = {
-                item = rewardsData.item,
                 netId = NetworkGetNetworkIdFromEntity(entity),
-                vehicle = rewardsData.vehicle,
+                rewards = currentZone.pumpkins,
+                pumpkinBonus = Config.BonusRewards.pumpkins[pumpkinsCollected],
+                bonusValue = pumpkinsCollected
             }
 
-            if rewardsData.vehicle then
+            local wonVehicle = lib.callback.await("ars_halloween:collectRewards", false, data)
+            if wonVehicle then
                 UTILS.showNotification(L("win_vehicle"))
                 doCelebration()
             end
-
-            TriggerServerEvent("ars_halloween:collectEntity", data)
             PlaySoundFrontend(-1, "CHECKPOINT_PERFECT", "HUD_MINI_GAME_SOUNDSET", 0)
 
             pumpkinsCollected += 1
@@ -287,25 +285,12 @@ exports.ox_target:addModel(Config.PumpkinModel, {
                 pumpkinsCollected = pumpkinsCollected,
             })
 
-            local bonus = Config.BonusRewards.pumpkins[pumpkinsCollected]
-            if bonus then
-                local alreadyCollected = lib.callback.await("ars_halloween:checkBonus", false, pumpkinsCollected)
-                if alreadyCollected then return end
-                local bonusRewardsData = collectRandomReward(bonus)
-                local bonusData = {
-                    item = bonusRewardsData.item,
-                    netId = NetworkGetNetworkIdFromEntity(entity),
-                    vehicle = bonusRewardsData.vehicle,
-                }
+            -- if rewardsData.vehicle then
+            --     UTILS.showNotification(L("win_vehicle"))
+            --     doCelebration()
+            -- end
 
-                if bonusRewardsData.vehicle then
-                    UTILS.showNotification(L("win_vehicle"))
-                    doCelebration()
-                end
-
-                TriggerServerEvent("ars_halloween:collectEntity", bonusData)
-            end
-
+            -- TriggerServerEvent("ars_halloween:collectEntity", data)
             scarePlayer()
         end
     }
@@ -364,7 +349,7 @@ function doCelebration() -- not synced because i am lazy
         local fireworkPos = cache.coords
         UseParticleFxAssetNextCall(particleDict)
         StartNetworkedParticleFxNonLoopedAtCoord(asset, fireworkPos.x, fireworkPos.y, fireworkPos.z, 0.0, 0.0, 0.0,
-            maandom() * 0.3 + 0.5, false, false, false)
+            math.random() * 0.3 + 0.5, false, false, false)
         Wait(math.random(200, 1000))
     end
 end

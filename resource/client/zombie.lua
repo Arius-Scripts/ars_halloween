@@ -175,19 +175,27 @@ function lootZombie(entity)
     ResetPedMovementClipset(playerPed, 0.30)
     if not progress then return end
 
-    local items = currentZone.zombies.items
-    local randomIndex = math.random(1, #items)
-    local data = {
-        item = items[randomIndex],
-        netId = NetworkGetNetworkIdFromEntity(entity)
-    }
+
 
     NetworkFadeOutEntity(entity)
     PlaySoundFrontend(-1, "CHECKPOINT_PERFECT", "HUD_MINI_GAME_SOUNDSET", 0)
     if zombies[entity] then
         zombies[entity] = false
     end
-    TriggerServerEvent("ars_halloween:collectEntity", data)
+
+
+    local data = {
+        netId = NetworkGetNetworkIdFromEntity(entity),
+        rewards = currentZone.zombies,
+        zombieBonus = Config.BonusRewards.pumpkins[zombiesCollected],
+        bonusValue = zombiesCollected
+    }
+
+    local wonVehicle = lib.callback.await("ars_halloween:collectRewards", false, data)
+    if wonVehicle then
+        UTILS.showNotification(L("win_vehicle"))
+        doCelebration()
+    end
 
     scarePlayer()
     zombiesCollected += 1
@@ -195,25 +203,6 @@ function lootZombie(entity)
         action = "updateCard",
         zombiesCollected = zombiesCollected
     })
-
-    local bonus = Config.BonusRewards.pumpkins[zombiesCollected]
-    if bonus then
-        local alreadyCollected = lib.callback.await("ars_halloween:checkBonus", false, zombiesCollected)
-        if alreadyCollected then return end
-        local bonusRewardsData = collectRandomReward(bonus)
-        local bonusData = {
-            item = bonusRewardsData.item,
-            netId = NetworkGetNetworkIdFromEntity(entity),
-            vehicle = bonusRewardsData.vehicle,
-        }
-
-        if bonusRewardsData.vehicle then
-            UTILS.showNotification(L("win_vehicle"))
-            doCelebration()
-        end
-
-        TriggerServerEvent("ars_halloween:collectEntity", bonusData)
-    end
 end
 
 exports.ox_target:addGlobalPed({

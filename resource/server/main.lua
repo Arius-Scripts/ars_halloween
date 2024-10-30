@@ -14,6 +14,7 @@ local function addItem(target, item, quantity)
     if ESX then
         local xPlayer = ESX.GetPlayerFromId(target)
         if not xPlayer then return end
+        print(item, quantity)
         return xPlayer.addInventoryItem(item, quantity)
     end
     if QBCore then
@@ -75,35 +76,69 @@ local function giveVehicle(target, vehicle)
     end
 end
 
+---@param rewards table
+---@return number | nil
+local function collectRandomReward(source, rewards)
+    local randomItemIndex = math.random(1, #rewards.items)
+    local item = rewards.items[randomItemIndex]
+
+    local vehicle = nil
+    if #rewards.vehicles > 0 then
+        local randomVehIndex = math.random(1, #rewards.vehicles)
+        local potentialVehicle = rewards.vehicles[randomVehIndex]
+
+        if math.random(1, 100) <= potentialVehicle.chance then
+            vehicle = potentialVehicle
+        end
+    end
+
+    local quantity = math.random(item.minQuantity, item.maxQuantity)
+    addItem(source, item.name, quantity)
+
+    if vehicle then
+        giveVehicle(source, vehicle)
+    end
+
+    return vehicle
+end
+
+
 ---@param data table
-RegisterNetEvent("ars_halloween:collectEntity", function(data)
-    local source = source
+lib.callback.register("ars_halloween:collectRewards", function(source, data)
     local entity = NetworkGetEntityFromNetworkId(data.netId)
 
     local entityCoords = GetEntityCoords(entity)
     local playerPed = GetPlayerPed(source)
     local playerCoords = GetEntityCoords(playerPed)
     if #(playerCoords - entityCoords) > 5 then
-        return print(("ID: [%s] triggered event %s"):format(source, "ars_halloween:collectEntity"))
+        return print(("ID: [%s] triggered event %s"):format(source, "ars_halloween:collectRewards"))
     end
 
-    local item = data.item.name
-    local quantity = math.random(data.item.minQuantity, data.item.maxQuantity)
-    addItem(source, item, quantity)
+    local wonVehicle = collectRandomReward(source, data.rewards)
 
-    local vehicle = data.vehicle
-    if vehicle then
-        giveVehicle(source, vehicle)
+    if data?.pumpkinBonus then
+        if not alreadyCollectedBonus(source, data.bonusValue, "pumpkins") then
+            wonVehicle = collectRandomReward(source, data.pumpkinBonus)
+        end
     end
-
+    if data?.zombieBonus then
+        if not alreadyCollectedBonus(source, data.bonusValue, "zombies") then
+            wonVehicle = collectRandomReward(source, data.zombieBonus)
+        end
+    end
     DeleteEntity(entity)
+
+    return wonVehicle
 end)
+
+
+local bonusCollected = {}
 
 ---@param source number
 ---@param bonus string
 ---@param type string
 ---@return boolean
-lib.callback.register("ars_halloween:checkBonus", function(source, bonus, type)
+function alreadyCollectedBonus(source, bonus, type)
     local playerIdentifier = GetPlayerIdentifierByType(source, "license")
 
     if not bonusCollected[playerIdentifier] then
@@ -128,7 +163,7 @@ lib.callback.register("ars_halloween:checkBonus", function(source, bonus, type)
     end
 
     return isCollected
-end)
+end
 
 ---@param target number
 ---@param item string
