@@ -52,7 +52,7 @@ Join the **Halloween**! Collect pumpkins for random rewards and a chance to win 
 -   ox_target
 
 :link: **Video Preview:**
-[Preview](https://youtu.be/nHboS-B9MCc)
+[Preview](https://www.youtube.com/watch?v=nHboS-B9MCc)
 
 :globe_with_meridians: **Cfx Forums**
 [Forums](https://forum.cfx.re/t/free-esx-qbcore-arius-ambulancejob/5184085)
